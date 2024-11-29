@@ -108,3 +108,55 @@ header {
     color: #00cec9;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        font-size: 1.5rem;
+    }
+
+    .game {
+        width: 90%;
+        gap: 1rem;
+    }
+
+    .box {
+        font-size: 1.5rem;
+    }
+
+    .btns {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
+    #msg, #score {
+        font-size: 1rem;
+    }
+}
+
+/* Spinner Styling */
+#spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Alert Styling */
+#alert {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: yellow;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}

@@ -15,45 +15,61 @@ const correctSound = new Audio('correct.mp3');
 const wrongSound = new Audio('wrong.mp3');
 const clickSound = new Audio('click.mp3');
 
-// Utility Functions
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const toggleBtn = document.querySelector("#toggle-btn");
+const spinner = document.querySelector("#spinner");
+const alertBox = document.querySelector("#alert");
+let isPaused = false;
 
-const playSound = (sound) => {
-    sound.currentTime = 0; // Restart sound
-    sound.play();
+// Toggle Pause/Play
+toggleBtn.addEventListener("click", () => {
+    isPaused = !isPaused;
+    toggleBtn.innerText = isPaused ? "▶️ Play" : "⏸️ Pause";
+    if (isPaused) {
+        canPlay = false;
+        msgBox.innerText = "⏸️ Game Paused!";
+    } else {
+        canPlay = true;
+        msgBox.innerText = "💬 Game Resumed!";
+    }
+});
+
+// Show and hide spinner for async actions
+const showSpinner = (show) => {
+    if (show) spinner.classList.remove("hidden");
+    else spinner.classList.add("hidden");
 };
 
-// Add a new random choice to the pattern
-const addNew = () => {
-    pattern.push(Math.floor(Math.random() * 9) + 1);
-};
-
-// Reset the game and start over
-function startOver() {
-    pattern = [];
-    for (let i = 0; i < 5; i++) addNew(); // Initialize with 5 steps
-    score = 0;
+// Modify showPattern to show spinner and alerts
+const showPattern = async () => {
     canPlay = false;
+    showSpinner(true);
+    alertBox.innerText = "⏳ Watch the pattern!";
+    alertBox.classList.remove("hidden");
 
-    scoreBox.innerText = `⭐ Score: ${score}`;
-    msgBox.innerText = "💬 Let's Play!";
-    msgBox.style.backgroundColor = "blue";
+    for (let i of pattern) {
+        if (isPaused) return;
+        light(choices.item(i - 1));
+        await delay(delayBy + 250);
+    }
 
-    showPattern();
-    setTimeout(() => (canPlay = true), delayBy * pattern.length);
-}
+    alertBox.classList.add("hidden");
+    showSpinner(false);
+    canPlay = true;
+};
 
-// Handle user gameplay
+// Modify gamePlayed to prevent interaction during animations
 const gamePlayed = async (choice) => {
-    playSound(clickSound); // Play click sound
-    light(choice, 500); // Light up the clicked choice
+    if (!canPlay || isPaused) return;
+
+    playSound(clickSound);
+    light(choice, 500);
 
     if (pattern[counter] == choice.id) {
         msgBox.innerText = `✔️ Correct, choose ${counter + 1}`;
         msgBox.style.backgroundColor = "blue";
         counter++;
     } else {
-        playSound(wrongSound); // Play wrong sound
+        playSound(wrongSound);
         scoreBox.innerText = `⭐ Score: ${score}`;
         msgBox.innerText = "❌ Wrong, Better Luck Next Time!";
         msgBox.style.backgroundColor = "red";
@@ -61,14 +77,13 @@ const gamePlayed = async (choice) => {
         return;
     }
 
-    // Check if the user completed the pattern
     if (counter == pattern.length) {
         msgBox.innerText = "🎉 Correct, Score +1!";
         msgBox.style.backgroundColor = "green";
-        playSound(correctSound); // Play correct sound
+        playSound(correctSound);
+
         score = counter;
         counter = 0;
-
         scoreBox.innerText = `⭐ Score: ${score}`;
         canPlay = false;
 
@@ -80,15 +95,35 @@ const gamePlayed = async (choice) => {
     }
 };
 
-// Show the current pattern
-const showPattern = async () => {
+// Enhance startOver to indicate loading
+function startOver() {
+    pattern = [];
+    for (let i = 0; i < 5; i++) addNew();
+    score = 0;
     canPlay = false;
-    setTimeout(() => (canPlay = true), 2000 * pattern.length);
 
-    for (let i of pattern) {
-        light(choices.item(i - 1), delayBy);
-        await delay(delayBy + 250);
-    }
+    scoreBox.innerText = `⭐ Score: ${score}`;
+    msgBox.innerText = "💬 Let's Play!";
+    msgBox.style.backgroundColor = "blue";
+
+    showSpinner(true);
+    setTimeout(() => {
+        showPattern();
+        showSpinner(false);
+    }, delayBy * pattern.length);
+}
+
+// Utility Functions
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const playSound = (sound) => {
+    sound.currentTime = 0; // Restart sound
+    sound.play();
+};
+
+// Add a new random choice to the pattern
+const addNew = () => {
+    pattern.push(Math.floor(Math.random() * 9) + 1);
 };
 
 // Light up a button
