@@ -1,0 +1,110 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+/* Header Styling */
+header {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Container Styling */
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Game Board */
+.game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 80%;
+    max-width: 600px;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Game Buttons */
+.box {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border: none;
+    border-radius: 1rem;
+    background-color: #74b9ff;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.box:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Controls Section */
+.controls {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Control Buttons */
+.btns {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btns:hover {
+    background-color: #74b9ff;
+}
+
+/* Footer Messages */
+#msg, #score {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+#msg {
+    color: #ffeaa7;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+}
+
+#score {
+    color: #00cec9;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+}
