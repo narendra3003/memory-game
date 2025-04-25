@@ -74,9 +74,11 @@ const gamePlayed = async (choice) => {
         msgBox.innerText = "❌ Wrong, Better Luck Next Time!";
         msgBox.style.backgroundColor = "red";
         canPlay = false;
+        enableButtons(); // Re-enable buttons when the game ends
         return;
     }
 
+    // Check if the user completed the pattern
     if (counter == pattern.length) {
         msgBox.innerText = "🎉 Correct, Score +1!";
         msgBox.style.backgroundColor = "green";
